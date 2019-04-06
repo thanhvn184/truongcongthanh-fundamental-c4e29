@@ -1,4 +1,4 @@
-in4 = input("Welcome to our club, what do you want (C, R, U, D)? ")
+in4 = input("Welcome to our club, what do you want (C, R, U, D)? ").upper()
 menu = ["Heiniken", "Whiskey", "Cocktail"]
 if in4 == ("R"):
     print("We have: ", *menu, sep="-")

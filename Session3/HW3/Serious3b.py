@@ -8,15 +8,16 @@ list0 = ["undead", "knight", "nagasiren", "demonhunter"]
 import random
 loop = True
 while loop:
-    i=random.choice(list0)
-    x = list(i)
-    random.shuffle(x)
-    print(x)
-    a = str(input("Your guess is: "))
-    if a==i:
-        print("Hurray!")
-    elif a==("endgame"):
-        loop = False
-        print("Done")    
-    else:
-        print("Wrong, try more!")    
+        i=random.choice(list0)
+        x = list(i)
+        random.shuffle(x)
+        print(x)
+    while loop:
+        a = str(input("Your guess is: "))
+        if a==i:
+            print("Hurray!")
+        elif a==("endgame"):
+            loop = False
+            print("Done")    
+        else:
+            print("Wrong, try more!")    
