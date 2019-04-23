@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 app = Flask(__name__)
 
 
@@ -59,7 +59,44 @@ def food():
 def detail(index):
     food_detail = foods[index]
     return render_template('food_detail.html', food_detail = food_detail)
+@app.route('/food/add_food', methods = ['GET', 'POST'])
+def add_food():
+    if request.method == 'GET':
+        return render_template('add_food.html')
+    elif request.method == 'POST':
+        form = request.form
+        new_food = {
+            "Title": form['title'],
+            "Description": form['description'],
+            "Link": form['Link'],
+            "Type": form['Type'],
+        }                 
+        foods.append(new_food)
+        print
+        return redirect('/food')
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        taikhoan ={
+            "account": "c4e"
+            "password": "c4e"
+        }    
+    form = request.form
+    acc = form["acc"]
+    pas = form["pass"]
+    if acc =! "c4e" and pas =! "c4e":
 
+        return "Wrong Accont and Password"
+    elif acc == "c4e" and pas =! "c4e":
+        return "Wrong"    
+
+
+
+
+    
 if __name__ == '__main__':
   app.run(debug=True)
 
