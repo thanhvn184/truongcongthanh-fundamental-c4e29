@@ -1,39 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+from bson.objectid import ObjectId
+from food_db import Foods
+
 app = Flask(__name__)
 
-
-foods = [
-    {
-        "Title": "Thịt chó",
-        "Description": "Rất ngon",
-        "Link": "https://i.ytimg.com/vi/OjKbjN_vfjo/maxresdefault.jpg",
-        "Type": "eat"
-    },
-    {
-        "Title": "Bún chả",
-        "Description": "Obama rất thích",
-        "Link": "https://beptruong.edu.vn/wp-content/uploads/2018/05/bun-cha.jpg",
-        "Type": "eat"
-    },
-    {
-        "Title": "Nem rán",
-        "Desccription": "Hương vị của mùa xuân",
-        "Link": "https://znews-photo.zadn.vn/w860/Uploaded/tmuitg/2018_09_19/_MG_8898.JPG",
-        "Type": "eat"
-    },
-    {
-        "Title": "Coke",
-        "Description": "Ngọt, có ga",
-        "Link": "https://cdn.shopify.com/s/files/1/2432/1939/products/Share_A_Coke_with_Barak_Michelle_1024x1024.jpg?v=1525648384",
-        "Type": "drink",
-    },    
-    {
-        "Title": "Nước lọc",
-        "Description": "Thanh mát",
-        "Link": "https://kangaroovietnam.vn/Uploads/resize_nuoc-loc-de-duoc-bao-20150924091821370.png",
-        "Type": "drink",
-    }                 
-]
 @app.route('/')
 def index():
     return "hello c4e"
@@ -52,12 +22,12 @@ def add(x, y):
 
 @app.route('/food')
 def food():
-
+    foods = Foods.find()
     return render_template('food.html', foods = foods)   
 
-@app.route('/food/<int:index>')
-def detail(index):
-    food_detail = foods[index]
+@app.route('/food/<id>')
+def detail(id):
+    food_detail = Foods.find_one({"_id": ObjectId(id)})
     return render_template('food_detail.html', food_detail = food_detail)
 @app.route('/food/add_food', methods = ['GET', 'POST'])
 def add_food():
@@ -71,9 +41,33 @@ def add_food():
             "Link": form['Link'],
             "Type": form['Type'],
         }                 
-        foods.append(new_food)
+        Foods.insert_one(new_food)
         print
         return redirect('/food')
+
+@app.route('/food/edit/<id>', methods = ["GET", "POST"])
+def edit_food(id):
+    food = Foods.find_one({'_id': ObjectId(id)}) 
+    if request.method == "GET": 
+        return render_template('edit_food.html', food = food)
+    elif request.method == "POST":
+        form = request.form
+        new_value = { "$set": {
+            "Title": form["title"],
+            "Description": form["description"],
+            "Link": form["Link"],
+            "Type": form["Type"]
+        }}
+        Foods.update_one(food, new_value)
+        return redirect('/food')
+
+
+@app.route('/food/delete/<id>')
+def delete(id):
+    food = Foods.find_one({"_id": ObjectId(id)})
+    Foods.delete_one(food)
+    return redirect('/food')
+
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     return render_template('login.html')
@@ -81,16 +75,16 @@ def login():
         return render_template('login.html')
     elif request.method == 'POST':
         taikhoan ={
-            "account": "c4e"
-            "password": "c4e"
+            "account": "c4e",
+            "password": "c4e",
         }    
     form = request.form
     acc = form["acc"]
     pas = form["pass"]
-    if acc =! "c4e" and pas =! "c4e":
+    if acc != "c4e" and pas != "c4e":
 
         return "Wrong Accont and Password"
-    elif acc == "c4e" and pas =! "c4e":
+    elif acc == "c4e" and pas != "c4e":
         return "Wrong"    
 
 

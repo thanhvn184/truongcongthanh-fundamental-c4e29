@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Food</title>
+</head>
+<body>
+    <form method="POST">
+        <select>
+            <option value="eat">do an</option>
+            <option value="drink">do uong</option>
+             
+        </select> <br>
+                
+        <input type="text" placeholder="Tiêu đề" name="title" value="{{food.Title}}">  <br>
+
+        <input type="text"placeholder="Mô tả"name="description" value="{{food.Description}}"> <br>
+    
+        <input type="text" placeholder="Link" name="Link" value="{{food.Link}}"><br>
+    
+        <input type="text" placeholder="Loai" name="Type" value="{{food.Type}}"><br>
+    
+    
+        <button>Xác nhận</button>
+    
+        </select>  
+        </form>
+</body>
+</html>

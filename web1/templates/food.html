@@ -21,8 +21,9 @@
     <p>Đây là đồ ăn.</p>
 {% endif %}
 
-<a href="/food/{{ loop.index0 }}">Bấm vào đây để xem chi tiết</a>
-
+<a href="/food/{{ food._id }}">Bấm vào đây để xem chi tiết</a>
+<a href="/food/edit/{{ food._id }}">Sửa thông tin món ăn</a>
+<a href="/food/delete/{{ food._id }}">Xóa món ăn</a>
  <hr>
 
 {% endfor %}
